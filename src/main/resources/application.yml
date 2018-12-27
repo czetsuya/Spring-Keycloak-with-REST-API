@@ -1,0 +1,17 @@
+keycloak:
+  enabled: true
+  realm: dev
+  auth-server-url: http://localhost:8083/auth
+  ssl-required: external
+  resource: dev-api
+  bearer-only: true
+  confidential-port: 0
+  use-resource-role-mappings: false
+  principal-attribute: preferred_username
+  security-constraints:
+  - auth-roles:
+    - ADMIN
+  - security-collections:
+    - name: admin
+    - patterns:
+      - /admin*
