@@ -8,10 +8,20 @@ keycloak:
   confidential-port: 0
   use-resource-role-mappings: false
   principal-attribute: preferred_username
+  cors: true
   security-constraints:
-  - auth-roles:
-    - ADMIN
-  - security-collections:
-    - name: admin
-    - patterns:
-      - /admin*
+    - auth-roles:
+      - User
+      security-collections:
+      - name: unsecured
+        patterns:
+        - /users
+    - auth-roles: 
+      - Admin
+      security-collections:
+      - name: secured
+        patterns:
+        - /admin
+logging:
+  level:
+    org.apache.catalina: DEBUG

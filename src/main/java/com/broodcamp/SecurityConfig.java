@@ -21,7 +21,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
@@ -32,13 +34,37 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
+	private final KeycloakClientRequestFactory keycloakClientRequestFactory;
+
+	public SecurityConfig(KeycloakClientRequestFactory keycloakClientRequestFactory) {
+		this.keycloakClientRequestFactory = keycloakClientRequestFactory;
+
+		// to use principal and authentication together with @async
+		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+	}
+
+	@Bean
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public KeycloakRestTemplate keycloakRestTemplate() {
+		return new KeycloakRestTemplate(keycloakClientRequestFactory);
+	}
+
+	public SimpleAuthorityMapper grantedAuthority() {
+		SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
+		mapper.setConvertToUpperCase(true);
+		return mapper;
+	}
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) {
 		KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-		SimpleAuthorityMapper simpleAuthorityMapper = new SimpleAuthorityMapper();
-		simpleAuthorityMapper.setConvertToUpperCase(true);
-		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(simpleAuthorityMapper);
+		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(grantedAuthority());
 		auth.authenticationProvider(keycloakAuthenticationProvider);
+	}
+
+	@Bean
+	public KeycloakConfigResolver keycloakConfigResolver() {
+		return new KeycloakSpringBootConfigResolver();
 	}
 
 	@Bean
@@ -47,32 +73,22 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 		return new NullAuthenticatedSessionStrategy();
 	}
 
-	@Bean
-	public KeycloakConfigResolver keycloakConfigResolver() {
-		return new KeycloakSpringBootConfigResolver();
-	}
-
-	@Autowired
-	public KeycloakClientRequestFactory keycloakClientRequestFactory;
-
-	@Bean
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public KeycloakRestTemplate keycloakRestTemplate() {
-		return new KeycloakRestTemplate(keycloakClientRequestFactory);
-	}
-
 	/**
 	 * Secure appropriate endpoints
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		super.configure(http);
-		http.authorizeRequests() //
+		http.cors() //
+				.and() //
+				.csrf().disable() //
+				.anonymous().disable() //
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
+				.and() //
+				.authorizeRequests() //
 				.antMatchers("/users*").hasRole("USER") //
 				.antMatchers("/admin*").hasRole("ADMIN") //
-				.anyRequest().permitAll() //
-				.and().csrf().disable() //
-		;
+				.anyRequest().denyAll(); //
 	}
 
 	@Bean

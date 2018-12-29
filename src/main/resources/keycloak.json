@@ -1,0 +1,8 @@
+{
+  "realm": "dev",
+  "bearer-only": true,
+  "auth-server-url": "http://localhost:8083/auth",
+  "ssl-required": "external",
+  "resource": "dev-api",
+  "confidential-port": 0
+}
