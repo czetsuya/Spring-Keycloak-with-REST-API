@@ -82,13 +82,13 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 		http.cors() //
 				.and() //
 				.csrf().disable() //
-				.anonymous().disable() //
+//				.anonymous().disable() //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
 				.and() //
 				.authorizeRequests() //
 				.antMatchers("/users*").hasRole("USER") //
 				.antMatchers("/admin*").hasRole("ADMIN") //
-				.anyRequest().denyAll(); //
+				.anyRequest().permitAll(); //
 	}
 
 	@Bean

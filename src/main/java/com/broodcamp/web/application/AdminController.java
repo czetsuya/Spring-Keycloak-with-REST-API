@@ -1,4 +1,4 @@
-package com.broodcamp.controllers;
+package com.broodcamp.web.application;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Edward P. Legaspi
  */
 @RestController
-@RequestMapping("/users")
-//@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-public class UserController {
+@RequestMapping("/admin")
+//@PreAuthorize("hasRole('ADMIN')")
+public class AdminController {
 
 	@GetMapping(path = "")
 	public String index() {
-		return "Users";
+		return "Admin";
 	}
 
 }

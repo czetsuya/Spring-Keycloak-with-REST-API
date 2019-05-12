@@ -1,9 +1,9 @@
 keycloak:
   enabled: true
   realm: dev
-  auth-server-url: http://localhost:8083/auth
+  auth-server-url: http://localhost:8081/auth
   ssl-required: external
-  resource: dev-api
+  resource: springboot-rest-api
   bearer-only: true
   confidential-port: 0
   use-resource-role-mappings: false
@@ -22,6 +22,3 @@ keycloak:
       - name: secured
         patterns:
         - /admin
-logging:
-  level:
-    org.apache.catalina: DEBUG

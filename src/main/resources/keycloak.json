@@ -1,8 +1,14 @@
 {
-  "realm": "dev",
+  "realm": "primereact-app",
   "bearer-only": true,
-  "auth-server-url": "http://localhost:8083/auth",
+  "auth-server-url": "http://localhost:8081/auth",
   "ssl-required": "external",
-  "resource": "dev-api",
-  "confidential-port": 0
+  "resource": "springboot-rest-api",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "50f11396-473d-442f-b699-c33cb99ec4cf"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0,
+  "policy-enforcer": {}
 }
