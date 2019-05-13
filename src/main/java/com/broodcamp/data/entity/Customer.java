@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,10 +26,17 @@ public class Customer {
 	private String name;
 	private int age;
 	private String email;
+	
+	@Transient
+	private Long entityId;
 
 	public Customer(String name, int age, String email) {
 		this.name = name;
 		this.age = age;
 		this.email = email;
+	}
+	
+	public Long getEntityId() {
+		return id;
 	}
 }
