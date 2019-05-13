@@ -1,8 +1,8 @@
 keycloak:
   enabled: true
-  realm: dev
+  realm: primereact-app
   auth-server-url: http://localhost:8081/auth
-  ssl-required: external
+  ssl-required: none
   resource: springboot-rest-api
   bearer-only: true
   confidential-port: 0
