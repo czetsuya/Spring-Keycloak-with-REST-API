@@ -6,7 +6,7 @@
   "resource": "springboot-rest-api",
   "verify-token-audience": true,
   "credentials": {
-    "secret": "79573dbe-9c53-40ee-8612-5c431c8586e7"
+    "secret": "0c13ffa2-4499-4084-a275-c497653c9aa4"
   },
   "confidential-port": 0,
   "principal-attribute": "preferred_username",

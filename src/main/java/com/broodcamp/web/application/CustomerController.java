@@ -27,7 +27,7 @@ import com.broodcamp.data.repository.CustomerRepository;
 import com.broodcamp.web.assembler.CustomerResourceAssembler;
 
 @RestController
-@RequestMapping(value = "/v1/customers")
+//@RequestMapping("/v1/customers")
 public class CustomerController {
 
 	@Autowired
@@ -41,9 +41,10 @@ public class CustomerController {
 	 * 
 	 * @return list of customers
 	 */
-	@GetMapping
+	@GetMapping("/v1/customers")
 	public Resources<Resource<Customer>> all() {
-		List<Resource<Customer>> entities = repository.findAll().stream().map(assembler::toResource).collect(Collectors.toList());
+		List<Resource<Customer>> entities = repository.findAll().stream().map(assembler::toResource)
+				.collect(Collectors.toList());
 
 		return new Resources<>(entities, linkTo(methodOn(CustomerController.class).all()).withSelfRel());
 	}
@@ -57,15 +58,16 @@ public class CustomerController {
 	 * @return newly created customer
 	 * @throws URISyntaxException
 	 */
-	@PostMapping(value = "/")
+	@PostMapping(value = "/v1/customers")
 	public ResponseEntity<Resource<Customer>> newCustomer(@RequestBody Customer newCustomer) throws URISyntaxException {
 
 		Resource<Customer> resource = assembler.toResource(repository.save(newCustomer));
 		return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id) throws URISyntaxException {
+	@PutMapping("/v1/customers/{id}")
+	public ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id)
+			throws URISyntaxException {
 
 		Customer updatedEmployee = repository.findById(id).map(employee -> {
 			employee.setName(newCustomer.getName());
@@ -89,7 +91,7 @@ public class CustomerController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/v1/customers/{id}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
 		repository.deleteById(id);
 		return ResponseEntity.noContent().build();
@@ -101,7 +103,7 @@ public class CustomerController {
 	 * @param id
 	 * @return customer detail
 	 */
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/v1/customers/{id}")
 	public Resource<Customer> one(@PathVariable Long id) {
 
 		Customer entity = repository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
