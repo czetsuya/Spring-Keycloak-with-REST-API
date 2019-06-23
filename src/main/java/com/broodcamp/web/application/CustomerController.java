@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +61,24 @@ public class CustomerController {
 	public ResponseEntity<Resource<Customer>> newCustomer(@RequestBody Customer newCustomer) throws URISyntaxException {
 
 		Resource<Customer> resource = assembler.toResource(repository.save(newCustomer));
+		return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id) throws URISyntaxException {
+
+		Customer updatedEmployee = repository.findById(id).map(employee -> {
+			employee.setName(newCustomer.getName());
+			employee.setAge(newCustomer.getAge());
+			employee.setEmail(newCustomer.getEmail());
+			return repository.save(employee);
+		}).orElseGet(() -> {
+			newCustomer.setId(id);
+			return repository.save(newCustomer);
+		});
+
+		Resource<Customer> resource = assembler.toResource(updatedEmployee);
+
 		return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
 	}
 
