@@ -27,7 +27,7 @@ import com.broodcamp.data.repository.CustomerRepository;
 import com.broodcamp.web.assembler.CustomerResourceAssembler;
 
 @RestController
-//@RequestMapping("/v1/customers")
+@RequestMapping("/v1/customers")
 public class CustomerController {
 
 	@Autowired
@@ -41,7 +41,7 @@ public class CustomerController {
 	 * 
 	 * @return list of customers
 	 */
-	@GetMapping("/v1/customers")
+	@GetMapping(path = "")
 	public Resources<Resource<Customer>> all() {
 		List<Resource<Customer>> entities = repository.findAll().stream().map(assembler::toResource)
 				.collect(Collectors.toList());
@@ -58,14 +58,14 @@ public class CustomerController {
 	 * @return newly created customer
 	 * @throws URISyntaxException
 	 */
-	@PostMapping(value = "/v1/customers")
+	@PostMapping(path = "")
 	public ResponseEntity<Resource<Customer>> newCustomer(@RequestBody Customer newCustomer) throws URISyntaxException {
 
 		Resource<Customer> resource = assembler.toResource(repository.save(newCustomer));
 		return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
 	}
 
-	@PutMapping("/v1/customers/{id}")
+	@PutMapping(path = "/{id}")
 	public ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id)
 			throws URISyntaxException {
 
@@ -91,7 +91,7 @@ public class CustomerController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping(value = "/v1/customers/{id}")
+	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
 		repository.deleteById(id);
 		return ResponseEntity.noContent().build();
@@ -103,7 +103,7 @@ public class CustomerController {
 	 * @param id
 	 * @return customer detail
 	 */
-	@GetMapping(value = "/v1/customers/{id}")
+	@GetMapping(path = "/{id}")
 	public Resource<Customer> one(@PathVariable Long id) {
 
 		Customer entity = repository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
