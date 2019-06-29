@@ -1,3 +1,5 @@
+server:
+  port: 8086
 keycloak:
   enabled: true
   realm: primereact-app

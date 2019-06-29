@@ -27,6 +27,9 @@ public class Customer {
 	private int age;
 	private String email;
 	
+	/**
+	 * Because id is being hidden by Spring REST Data JPA
+	 */
 	@Transient
 	private Long entityId;
 

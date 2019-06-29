@@ -43,8 +43,7 @@ public class CustomerController {
 	 */
 	@GetMapping(path = "")
 	public Resources<Resource<Customer>> all() {
-		List<Resource<Customer>> entities = repository.findAll().stream().map(assembler::toResource)
-				.collect(Collectors.toList());
+		List<Resource<Customer>> entities = repository.findAll().stream().map(assembler::toResource).collect(Collectors.toList());
 
 		return new Resources<>(entities, linkTo(methodOn(CustomerController.class).all()).withSelfRel());
 	}
@@ -66,8 +65,7 @@ public class CustomerController {
 	}
 
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id)
-			throws URISyntaxException {
+	public ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id) throws URISyntaxException {
 
 		Customer updatedEmployee = repository.findById(id).map(employee -> {
 			employee.setName(newCustomer.getName());
@@ -80,6 +78,13 @@ public class CustomerController {
 		});
 
 		Resource<Customer> resource = assembler.toResource(updatedEmployee);
+
+		try {
+			Thread.sleep(5000);
+			
+		} catch (InterruptedException e) {
+
+		}
 
 		return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
 	}
