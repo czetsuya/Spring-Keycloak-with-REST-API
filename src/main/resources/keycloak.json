@@ -1,17 +1,13 @@
 {
-	"realm": "primereact-app",
-	"bearer-only": true,
-	"auth-server-url": "http://localhost:8081/auth",
-	"ssl-required": "external",
-	"resource": "springboot-rest-api",
-	"verify-token-audience": true,
-	"credentials": {
-		"secret": "526c37bd-84fe-4346-b0b2-6784c23af585"
-	},
-	"confidential-port": 0,
-	"principal-attribute": "preferred_username",
-	"enable-cors": true,
-	"policy-enforcer": {
-		
-	}
+  "realm": "primereact-app",
+  "bearer-only": true,
+  "auth-server-url": "http://192.168.1.6:8080/auth",
+  "ssl-required": "external",
+  "resource": "springboot-rest-api",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "371a34c9-9c8c-4aa5-a6b1-ee338c5454b2"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
 }

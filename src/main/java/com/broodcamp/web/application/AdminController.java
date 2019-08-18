@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Edward P. Legaspi
  */
 @RestController
-@RequestMapping("/admin")
+@RequestMapping(path = "/v1/admin")
 //@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 

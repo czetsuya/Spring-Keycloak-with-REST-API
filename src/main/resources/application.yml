@@ -1,9 +1,9 @@
 server:
-  port: 8086
+  port: 8080
 keycloak:
   enabled: true
   realm: primereact-app
-  auth-server-url: http://localhost:8081/auth
+  auth-server-url: http://192.168.1.6:8080/auth
   ssl-required: none
   resource: springboot-rest-api
   bearer-only: true
@@ -17,10 +17,10 @@ keycloak:
       security-collections:
       - name: unsecured
         patterns:
-        - /users
+        - /v1/users
     - auth-roles: 
       - Admin
       security-collections:
       - name: secured
         patterns:
-        - /admin
+        - /v1/admin

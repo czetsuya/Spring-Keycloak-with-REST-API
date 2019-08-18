@@ -14,7 +14,7 @@ import com.broodcamp.utils.SecurityContextUtils;
  * @author Edward P. Legaspi
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping(path = "/v1/users")
 //@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 public class UserController {
 
