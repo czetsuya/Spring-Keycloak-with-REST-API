@@ -67,6 +67,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 		return new KeycloakSpringBootConfigResolver();
 	}
 
+	/**
+	 * Use NullAuthenticatedSessionStrategy for bearer-only tokens. Otherwise, use
+	 * RegisterSessionAuthenticationStrategy.
+	 */
 	@Bean
 	@Override
 	protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
@@ -86,14 +90,13 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
 				.and() //
 				.authorizeRequests() //
-				.antMatchers("/users*").hasRole("USER") //
-				.antMatchers("/admin*").hasRole("ADMIN") //
+//				.antMatchers("/users*").hasRole("USER") //
+//				.antMatchers("/admin*").hasRole("ADMIN") //
 				.anyRequest().permitAll(); //
 	}
 
 	@Bean
-	public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
-			KeycloakAuthenticationProcessingFilter filter) {
+	public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(KeycloakAuthenticationProcessingFilter filter) {
 		FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
 		registrationBean.setEnabled(false);
 		return registrationBean;
@@ -114,8 +117,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public FilterRegistrationBean keycloakSecurityContextRequestFilterBean(
-			KeycloakSecurityContextRequestFilter filter) {
+	public FilterRegistrationBean keycloakSecurityContextRequestFilterBean(KeycloakSecurityContextRequestFilter filter) {
 		FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
 		registrationBean.setEnabled(false);
 		return registrationBean;
