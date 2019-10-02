@@ -112,4 +112,8 @@
 		</plugins>
 	</build>
 
+	<scm>
+		<developerConnection>Edward P. Legaspi &lt;czetsuya@gmail.com&gt;</developerConnection>
+	</scm>
+	<url>https://github.com/czetsuya</url>
 </project>
