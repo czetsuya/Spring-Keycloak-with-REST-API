@@ -34,100 +34,108 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-	private final KeycloakClientRequestFactory keycloakClientRequestFactory;
+    private final KeycloakClientRequestFactory keycloakClientRequestFactory;
 
-	public SecurityConfig(KeycloakClientRequestFactory keycloakClientRequestFactory) {
-		this.keycloakClientRequestFactory = keycloakClientRequestFactory;
+    public SecurityConfig(KeycloakClientRequestFactory keycloakClientRequestFactory) {
+        this.keycloakClientRequestFactory = keycloakClientRequestFactory;
 
-		// to use principal and authentication together with @async
-		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-	}
+        // to use principal and authentication together with @async
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    }
 
-	@Bean
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public KeycloakRestTemplate keycloakRestTemplate() {
-		return new KeycloakRestTemplate(keycloakClientRequestFactory);
-	}
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public KeycloakRestTemplate keycloakRestTemplate() {
+        return new KeycloakRestTemplate(keycloakClientRequestFactory);
+    }
 
-	public SimpleAuthorityMapper grantedAuthority() {
-		SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
-		mapper.setConvertToUpperCase(true);
-		return mapper;
-	}
+    public SimpleAuthorityMapper grantedAuthority() {
+        SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
+        mapper.setConvertToUpperCase(true);
+        return mapper;
+    }
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) {
-		KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(grantedAuthority());
-		auth.authenticationProvider(keycloakAuthenticationProvider);
-	}
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(grantedAuthority());
+        auth.authenticationProvider(keycloakAuthenticationProvider);
+    }
 
-	@Bean
-	public KeycloakConfigResolver keycloakConfigResolver() {
-		return new KeycloakSpringBootConfigResolver();
-	}
+    @Bean
+    public KeycloakConfigResolver keycloakConfigResolver() {
+        return new KeycloakSpringBootConfigResolver();
+    }
 
-	/**
-	 * Use NullAuthenticatedSessionStrategy for bearer-only tokens. Otherwise, use
-	 * RegisterSessionAuthenticationStrategy.
-	 */
-	@Bean
-	@Override
-	protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-		return new NullAuthenticatedSessionStrategy();
-	}
+    /**
+     * Use NullAuthenticatedSessionStrategy for bearer-only tokens. Otherwise, use
+     * RegisterSessionAuthenticationStrategy.
+     */
+    @Bean
+    @Override
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new NullAuthenticatedSessionStrategy();
+    }
 
-	/**
-	 * Secure appropriate endpoints
-	 */
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		super.configure(http);
-		http.cors() //
-				.and() //
-				.csrf().disable() //
+    /**
+     * Secure appropriate endpoints
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+        http.cors() //
+                .and() //
+                .csrf().disable() //
 //				.anonymous().disable() //
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
-				.and() //
-				.authorizeRequests() //
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
+                .and() //
+                .authorizeRequests() //
 //				.antMatchers("/users*").hasRole("USER") //
 //				.antMatchers("/admin*").hasRole("ADMIN") //
-				.anyRequest().permitAll(); //
-	}
+                .anyRequest().permitAll(); //
+    }
 
-	@Bean
-	public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(KeycloakAuthenticationProcessingFilter filter) {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-		registrationBean.setEnabled(false);
-		return registrationBean;
-	}
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Bean
+    public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(KeycloakAuthenticationProcessingFilter filter) {
 
-	@Bean
-	public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(KeycloakPreAuthActionsFilter filter) {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-		registrationBean.setEnabled(false);
-		return registrationBean;
-	}
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        registrationBean.setEnabled(false);
+        return registrationBean;
+    }
 
-	@Bean
-	public FilterRegistrationBean keycloakAuthenticatedActionsFilterBean(KeycloakAuthenticatedActionsFilter filter) {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-		registrationBean.setEnabled(false);
-		return registrationBean;
-	}
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Bean
+    public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(KeycloakPreAuthActionsFilter filter) {
 
-	@Bean
-	public FilterRegistrationBean keycloakSecurityContextRequestFilterBean(KeycloakSecurityContextRequestFilter filter) {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-		registrationBean.setEnabled(false);
-		return registrationBean;
-	}
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        registrationBean.setEnabled(false);
+        return registrationBean;
+    }
 
-	@Bean
-	@Override
-	@ConditionalOnMissingBean(HttpSessionManager.class)
-	protected HttpSessionManager httpSessionManager() {
-		return new HttpSessionManager();
-	}
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Bean
+    public FilterRegistrationBean keycloakAuthenticatedActionsFilterBean(KeycloakAuthenticatedActionsFilter filter) {
+
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        registrationBean.setEnabled(false);
+        return registrationBean;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Bean
+    public FilterRegistrationBean keycloakSecurityContextRequestFilterBean(KeycloakSecurityContextRequestFilter filter) {
+
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        registrationBean.setEnabled(false);
+        return registrationBean;
+    }
+
+    @Bean
+    @Override
+    @ConditionalOnMissingBean(HttpSessionManager.class)
+    protected HttpSessionManager httpSessionManager() {
+        return new HttpSessionManager();
+    }
 
 }

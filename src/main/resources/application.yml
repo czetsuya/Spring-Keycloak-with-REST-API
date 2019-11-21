@@ -24,3 +24,9 @@ keycloak:
       - name: secured
         patterns:
         - /v1/admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
