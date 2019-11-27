@@ -20,11 +20,11 @@ public class LoadDatabase {
 	CommandLineRunner initDatabase(final CustomerRepository customerRepository) {
 		return args -> {
 			log.debug("Preloading 6 customers");
-			customerRepository.save(new Customer("Kira Yamato", 16, "kira@gundam.com"));
-			customerRepository.save(new Customer("Aerith Gainsborough", 16, "aerith@ffvii.com"));
-			customerRepository.save(new Customer("Tifa Lockheart", 16, "tifa@ffvii.com"));
-			customerRepository.save(new Customer("Garnet Til Alexandros", 16, "tifa@ffix.com"));
-			customerRepository.save(new Customer("Terra Branford", 16, "terra@ffvi.com"));
+			customerRepository.save(new Customer("Kira Yamato", 21, "kira@gundam.com"));
+			customerRepository.save(new Customer("Aerith Gainsborough", 21, "aerith@ffvii.com"));
+			customerRepository.save(new Customer("Tifa Lockheart", 21, "tifa@ffvii.com"));
+			customerRepository.save(new Customer("Garnet Til Alexandros", 21, "tifa@ffix.com"));
+			customerRepository.save(new Customer("Terra Branford", 21, "terra@ffvi.com"));
 		};
 	}
 
