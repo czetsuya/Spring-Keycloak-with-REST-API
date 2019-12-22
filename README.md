@@ -1,5 +1,3 @@
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S0YXPX)
-
 # Spring Project Secured with Keycloak
 
 A demo project created to demonstrate how a Spring project can be secured using a Keycloak server via bearer token.
