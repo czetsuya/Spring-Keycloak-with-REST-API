@@ -36,3 +36,7 @@ Role=Admin, admin / admin
 ## References
 
  - https://github.com/springdoc/springdoc-openapi-maven-plugin
+
+## Authors
+
+ * **Edward P. Legaspi** - *Java Architect* - [czetsuya](https://github.com/czetsuya)
