@@ -1,3 +1,6 @@
+[![patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=12280211)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 # Spring Project Secured with Keycloak
 
 A demo project created to demonstrate how a Spring project can be secured using a Keycloak server via bearer token.
