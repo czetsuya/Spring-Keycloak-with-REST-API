@@ -15,7 +15,7 @@ SpringDoc URLs:
 *In case you will be using Keycloak version greater than 7.0.0, the Keycloak team has introduced the notion of feature and uploading the json file has become one of them. Sadly, it is disabled by default. To enable realm, upload run Keycloak with the given parameter:
 
 ```
-standalone.bat -Dkeycloak.profile.feature.upload_scripts=enabled
+standalone.bat -Djboss.socket.binding.port-offset=1 -Dkeycloak.profile.feature.upload_scripts=enabled
 ```
 
 Here's the documentation: https://www.keycloak.org/docs/latest/server_installation/, look at the profiles section.
