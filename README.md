@@ -23,6 +23,26 @@ standalone.bat -Djboss.socket.binding.port-offset=1 -Dkeycloak.profile.feature.u
 
 Here's the documentation: https://www.keycloak.org/docs/latest/server_installation/, look at the profiles section.
 
+## Running Keycloak in Docker
+
+To run Keycloak as a docker container and enable the realm configuration upload, the keycloak.profile.feature.upload_scripts must be set.
+
+```sh
+docker run -d -p 8080:8080 -e JAVA_OPTS="-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled" -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=kerri jboss/keycloak
+```
+
+## Running Keycloak as Standalone
+
+Import the realm file inside the config folder. If you're not familiar with the installation process, visit the blog I have written in the reference section below.
+
+When you import the realm it will also create the users below.
+
+### Users
+
+Role=User, kerri / kerri
+Role=Admin, admin / admin
+
+
 ## Note:
 
 - Make sure that you have the same Keycloak client credentials value for the 2 project ands Keycloak server.
@@ -31,13 +51,9 @@ If keycloak.json file is to be used instead of application.yml, set the followin
 
 keycloak.configurationFile = classpath:keycloak.json
 
-## Users
-
-Role=User, kerri / kerri
-Role=Admin, admin / admin
-
 ## References
 
+ - https://czetsuya-tech.blogspot.com/2020/02/download-and-configure-keycloak-sso-server.html
  - https://github.com/springdoc/springdoc-openapi-maven-plugin
 
 ## Authors
