@@ -28,7 +28,7 @@ Here's the documentation: https://www.keycloak.org/docs/latest/server_installati
 To run Keycloak as a docker container and enable the realm configuration upload, the keycloak.profile.feature.upload_scripts must be set.
 
 ```sh
-docker run -d -p 8080:8080 -e JAVA_OPTS="-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled" -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=kerri jboss/keycloak
+docker run --name=keycloak10 -d -p 8080:8080 -e JAVA_OPTS="-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled" -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=kerri jboss/keycloak
 ```
 
 ## Running Keycloak as Standalone
