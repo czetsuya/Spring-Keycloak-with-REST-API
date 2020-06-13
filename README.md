@@ -12,7 +12,7 @@ SpringDoc URLs:
 
 ## Requirements:
 
-- Keycloak server 6.0.1
+- Keycloak server 10.0.1
 - https://github.com/czetsuya/keycloak-react
 
 *In case you will be using Keycloak version greater than 7.0.0, the Keycloak team has introduced the notion of feature and uploading the json file has become one of them. Sadly, it is disabled by default. To enable realm, upload run Keycloak with the given parameter:
